@@ -1,7 +1,8 @@
 import scala.io.Source
 
-
-  //so a singleton (single instance) object of all my Utilities functions
+/** Object to store all Utilities functions/methods that are used in other objects/classes
+ * as not make multiple copies */
+//TODO - check which functions are used in the parser, delete unnecessary
   object Utilities {
     //not going to run it as such just use it for storing Utility functions/methods used in other objects / classes
     //I am using Object to store these because I do not need multiple copies
@@ -64,11 +65,11 @@ import scala.io.Source
       lines.indexWhere(line => line.toLowerCase.contains(needle.toLowerCase))
     }
 
-    def getRandomIntSeq(count: Int = 1000, min: Int = 0, max: Int = 100_000): Seq[Int] = {
-      val r = scala.util.Random
-      //TODO check if we need to add + 1
-      for (_ <- 1 to count) yield min + r.nextInt(max - min + 1) //we are using _ since we do not need index here
-    }
+//    def getRandomIntSeq(count: Int = 1000, min: Int = 0, max: Int = 100_000): Seq[Int] = {
+//      val r = scala.util.Random
+//      //TODO check if we need to add + 1
+//      for (_ <- 1 to count) yield min + r.nextInt(max - min + 1) //we are using _ since we do not need index here
+//    }
 
     def saveIntSeq(ints: Seq[Int], destPath: String): Unit = {
       //    val lines = ints.map(_.asInstanceOf[String]).toArray //so we had to cast to Scala string each member

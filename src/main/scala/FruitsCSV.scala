@@ -1,5 +1,4 @@
-import java.sql.Connection
-import java.sql.{Connection, DriverManager, PreparedStatement}
+import DBHelperFunctions._
 
 object FruitsCSV extends App{
 
@@ -43,32 +42,14 @@ object FruitsCSV extends App{
   val connection = DriverManager.getConnection(url)
 
   val statement = connection.createStatement()
-  def migrateFruitPriceTable(connection:Connection) = {
-    println("Migrating table for Fruits in EU")
-    val statement = connection.createStatement()
-    //Creates a Statement object for sending SQL statements to the database.
-
-    //"Category","Sector Code","Product_code","Product_desc","Description","Unit","Country","Period","MP Market Price"
-    val sql =
-      """
-        |DROP TABLE IF EXISTS FruitPrice;
-        |CREATE TABLE IF NOT EXISTS FruitPrice (
-        | Category TEXT NOT NULL,
-        | Sector Code TEXT NOT NULL,
-        | Product_code TEXT NOT NULL,
-        | Product_desc TEXT NOT NULL,
-        | Description TEXT NOT NULL,
-        | Unit TEXT NOT NULL,
-        | Country TEXT NOT NULL,
-        | Period INTEGER NOT NULL,
-        | MP Market Price DOUBLE NOT NULL
-        |);
-        |""".stripMargin
-
-    statement.executeUpdate(sql)
-  }
 
   migrateFruitPriceTable(connection)
+
+  //For testing purposes I just took 200 lines to save in DB
+  val pricesSliced = fruitPrices.slice(0,200)
+  pricesSliced.foreach(insertFruitPriceEU(connection, _))
+
+  connection.close()
 
 
 }
