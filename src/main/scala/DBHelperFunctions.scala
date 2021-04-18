@@ -4,14 +4,14 @@ import java.sql.{Connection, PreparedStatement}
 
 object DBHelperFunctions extends App {
 
-  def migrateFruitPriceTable(connection: Connection) = {
+  def migrateFruitPriceTable(connection: Connection):Unit = {
     println("Migrating table for Fruits in EU")
     val statement = connection.createStatement()
 
     /** Function for creating a table FruitPrice
      * First column id as integer with autoincrement
      * columns in accordance with case class
-     * "Category","Sector Code","Product_code","Product_desc","Description","Unit","Country","Period","MP Market Price" */
+     * "Category","Sector Code","Product_code","Product","Description","Unit","Country","Period","MP Market Price" */
 
     val sqlCreateFruitPriceTable =
       """
@@ -21,11 +21,11 @@ object DBHelperFunctions extends App {
         | Category TEXT NOT NULL,
         | Sector_code TEXT NOT NULL,
         | Product_code TEXT NOT NULL,
-        | Product_desc TEXT NOT NULL,
+        | Product TEXT NOT NULL,
         | Description TEXT NOT NULL,
         | Unit TEXT NOT NULL,
         | Country TEXT NOT NULL,
-        | Period INTEGER NOT NULL,
+        | Period TEXT NOT NULL,
         | MP_Market_Price DOUBLE NOT NULL
         |);
         |""".stripMargin
@@ -46,7 +46,7 @@ object DBHelperFunctions extends App {
         |    category,
         |    sector_code,
         |    product_code,
-        |    product_desc,
+        |    product,
         |    description,
         |    unit,
         |    country,
