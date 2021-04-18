@@ -4,8 +4,7 @@ import scala.io.Source
  * as not make multiple copies */
 //TODO - check which functions are used in the parser, delete unnecessary
   object Utilities {
-    //not going to run it as such just use it for storing Utility functions/methods used in other objects / classes
-    //I am using Object to store these because I do not need multiple copies
+
     def getFilePathFromUrl(url: String, folder: String = "./src/resources/"): String = {
       val fName = url.split("/").last.split('.') //if 25880.txt is assumed, final split and next line not needed
       val fileName = fName(0) + "." + fName(1) //.org/ebooks/25880.txt.utf-8 third one is encoding

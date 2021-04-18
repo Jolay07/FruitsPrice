@@ -39,7 +39,8 @@ object DBHelperFunctions extends App {
     /** inserting an FruitPriceEU object into the created table
      * taking parameters from single object */
 
-    println(s"Inserting Fruit Price in EU $fruitPriceEUObject")
+    //println(s"Inserting Fruit Price in EU $fruitPriceEUObject")
+
     val insertSql =
       """
         |INSERT INTO FruitPrice (
@@ -69,6 +70,37 @@ object DBHelperFunctions extends App {
     preparedStmt.setDouble(9, fruitPriceEUObject.Price)
     preparedStmt.execute
     preparedStmt.close()
+  }
+
+  def getGalaApples(conn: Connection): Seq[FruitPriceEU] = {
+    val statement = conn.createStatement()
+
+
+    val sqlSelectGala =
+      """
+        |SELECT * from FruitPrice
+        |WHERE Product LIKE '%Gala%' AND Country = 'DE'
+        |ORDER BY MP_Market_Price DESC;
+        |""".stripMargin
+
+    val resultSet = statement.executeQuery(sqlSelectGala)
+    val galaList = scala.collection.mutable.ListBuffer.empty[FruitPriceEU]
+
+    while (resultSet.next()) {
+      val galaApple = FruitPriceEU(resultSet.getString("Category"),
+        resultSet.getString("Sector_code"),
+      resultSet.getString("Product_code"),
+      resultSet.getString("Product"),
+      resultSet.getString("Description"),
+        resultSet.getString("Unit"),
+        resultSet.getString("Country"),
+        resultSet.getString("Period"),
+        resultSet.getString("MP_Market_Price").toDouble)
+      galaList.append(galaApple)
+      //    println(row.size)
+    }
+    conn.close()
+    galaList.toSeq
   }
 
 }

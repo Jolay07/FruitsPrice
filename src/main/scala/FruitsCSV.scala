@@ -14,7 +14,8 @@ object FruitsCSV extends App{
    * split each line in tokens by "," separator and trim whitespace
    * take off " in line beginning and end */
 
-  val cols = lines.map(line => line.split("\",\"|\",|,\"").map(_.trim))
+  //val cols = lines.map(line => line.split("\",\"|\",|,\"").map(_.trim))
+  val cols = lines.map(line => line.split("\",\"").map(_.trim))
   val endCols = cols.map(line => line.map(_.stripPrefix("\"").stripSuffix("\"")))
 
   val tokenCounts = for {line <- cols} yield line.length
@@ -41,15 +42,44 @@ object FruitsCSV extends App{
 
   fruitPrices.slice(0,5)foreach(println)
 
+  //Filtering apples
+  val allApples = fruitPrices.filter(fruit => fruit.Product.contains("Apple"))
+  println("-------Gala Apples--------")
+  println(s"There are ${allApples.length} lines with apples")
+  //gala apples sorted by price DESC, in Germany
+  val galaApplesSorted = allApples.sortBy(-_.Price).filter(fruit => fruit.Product.contains("Gala")
+    && fruit.Country.equalsIgnoreCase("de"))
+    println(s"There are ${galaApplesSorted.length} lines with Gala apples in Germany. Printing some for testing: ")
+  galaApplesSorted.slice(0,4).foreach(println)
+
+  def getFruitPriceEUCSV(fr: FruitPriceEU): String = s"${fr.Category},${fr.SectorCode},${fr.ProductCode}," +
+    s"${fr.Product},${fr.Description},${fr.Unit},${fr.Country},${fr.Period},${fr.Price}"
+  val columnNames = Array("Category, Sector Code, Product Code, Product, Description , Unit, Country, Period, Price")
+  val galaAppleStrings = galaApplesSorted.map(line => getFruitPriceEUCSV(line))
+  val rawAllApplesSorted = columnNames.concat(galaAppleStrings)
+
+  val savePath =  "src/resources/allGalaApplesSortedByPriceDesc.csv"
+  //commented out, because already saved
+  //Utilities.saveLines(rawAllApplesSorted, savePath)
+
+
   //DB section, create connection with Data Base
   val url = "jdbc:sqlite:./src/resources/dataBase/FruitPrice.db"
   val connection = DriverManager.getConnection(url)
 
-  migrateFruitPriceTable(connection)
+  //Commented out, because table created
+  //migrateFruitPriceTable(connection)
 
-  //For testing purposes I just took 200 lines to save in DB
-  val pricesSliced = fruitPrices.slice(0,20)
-  pricesSliced.foreach(insertFruitPriceEU(connection, _))
+  //For testing purposes I just took 200 lines to save in DB - works
+  //val pricesSliced = fruitPrices.slice(0,20)
+ //pricesSliced.foreach(insertFruitPriceEU(connection, _))
+
+  //save all fruit prices in one table, commented out, because already saved
+  //fruitPrices.foreach(insertFruitPriceEU(connection, _))
+
+  val galaFromDB = getGalaApples(connection)
+  println(s"There are ${galaFromDB.length} lines of Gala apples in Germany from DB. Printing some for testing: ")
+  galaFromDB.slice(0,4).foreach(println)
 
   connection.close()
 
