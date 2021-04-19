@@ -1,5 +1,6 @@
 import DBHelperFunctions._
 import java.sql.DriverManager
+import org.slf4j.LoggerFactory
 
 object FruitsCSV extends App{
 
@@ -8,6 +9,9 @@ object FruitsCSV extends App{
   val relativePath = "src/resources/market-prices-fruit-products_en_6.csv"
   val lines = Utilities.getLinesFromFile(relativePath)
 
+  //Adding logging to the project
+  val parentLogger = LoggerFactory.getLogger("com.github.jolay07")
+  parentLogger.info("Simple logging message!")
   println(s"We got ${lines.length} lines.")
 
   /** Splitting lines

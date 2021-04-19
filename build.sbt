@@ -21,3 +21,11 @@ libraryDependencies += "org.ini4j" % "ini4j" % "0.5.4"
 
 // https://mvnrepository.com/artifact/org.yaml/snakeyaml
 libraryDependencies += "org.yaml" % "snakeyaml" % "1.28"
+
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
+
+// https://mvnrepository.com/artifact/com.typesafe.scala-logging/scala-logging
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.3"
+
+// https://mvnrepository.com/artifact/org.scalatest/scalatest
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.7" % Test
