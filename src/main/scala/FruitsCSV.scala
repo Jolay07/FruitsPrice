@@ -10,9 +10,10 @@ object FruitsCSV extends App{
   val lines = Utilities.getLinesFromFile(relativePath)
 
   //Adding logging to the project
-  val parentLogger = LoggerFactory.getLogger("com.github.jolay07")
-  parentLogger.info("Simple logging message!")
-  println(s"We got ${lines.length} lines.")
+  val log = LoggerFactory.getLogger("com.github.jolay07")
+  log.info("Try to get log!")
+  // in place of print line we use logging.
+  log.debug(s"We got ${lines.length} lines.")
 
   /** Splitting lines
    * split each line in tokens by "," separator and trim whitespace
@@ -24,7 +25,7 @@ object FruitsCSV extends App{
 
   val tokenCounts = for {line <- cols} yield line.length
 //Just check if in all lines are the same count of tokens and check if parsing works correct.
-  println(s"The minimum of ${tokenCounts.min} items is the same as max of ${tokenCounts.max} items")
+  log.debug(s"The minimum of ${tokenCounts.min} items is the same as max of ${tokenCounts.max} items")
 
   def convertToFruitPrice(tokens: Seq[String]):FruitPriceEU = {
     FruitPriceEU(
@@ -48,12 +49,12 @@ object FruitsCSV extends App{
 
   //Filtering apples
   val allApples = fruitPrices.filter(fruit => fruit.Product.contains("Apple"))
-  println("-------Gala Apples--------")
-  println(s"There are ${allApples.length} lines with apples")
+  log.debug("-------Gala Apples--------")
+  log.debug(s"There are ${allApples.length} lines with apples")
   //gala apples sorted by price DESC, in Germany
   val galaApplesSorted = allApples.sortBy(-_.Price).filter(fruit => fruit.Product.contains("Gala")
     && fruit.Country.equalsIgnoreCase("de"))
-    println(s"There are ${galaApplesSorted.length} lines with Gala apples in Germany. Printing some for testing: ")
+    log.debug(s"There are ${galaApplesSorted.length} lines with Gala apples in Germany. Printing some for testing: ")
   galaApplesSorted.slice(0,4).foreach(println)
 
   def getFruitPriceEUCSV(fr: FruitPriceEU): String = s"${fr.Category},${fr.SectorCode},${fr.ProductCode}," +
@@ -82,7 +83,7 @@ object FruitsCSV extends App{
   //fruitPrices.foreach(insertFruitPriceEU(connection, _))
 
   val galaFromDB = getGalaApples(connection)
-  println(s"There are ${galaFromDB.length} lines of Gala apples in Germany from DB. Printing some for testing: ")
+  log.debug(s"There are ${galaFromDB.length} lines of Gala apples in Germany from DB. Printing some for testing: ")
   galaFromDB.slice(0,4).foreach(println)
 
   connection.close()
