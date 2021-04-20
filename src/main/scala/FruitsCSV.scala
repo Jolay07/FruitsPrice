@@ -103,7 +103,7 @@ object FruitsCSV extends App {
   var userProduct = readLine("Type in the fruit name: ")
     .toUpperCase
     .trim
-  while(!(uniqueProducts.exists(_.toUpperCase == userProduct))) {
+  while(!uniqueProducts.exists(_.toUpperCase.contains(userProduct))) {
     userProduct = readLine("Fruit not found! Try to type it in again: ")
   }
   println(s"$userProduct found.")
