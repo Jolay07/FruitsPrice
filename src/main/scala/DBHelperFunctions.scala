@@ -2,7 +2,7 @@ import java.sql.{Connection, PreparedStatement}
 
 /** Here are functions that are used in relation to DB */
 
-object DBHelperFunctions extends App {
+object DBHelperFunctions {
 
   def migrateFruitPriceTable(connection: Connection):Unit = {
     println("Migrating table for Fruits in EU")

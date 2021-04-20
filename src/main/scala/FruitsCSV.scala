@@ -135,6 +135,22 @@ object FruitsCSV extends App {
         sortedRes = filterRes.sortBy(-_.Price)
         sortedRes.slice(0, 5).foreach(println)
       }
+
+    val save = readLine("Do you want to save he results as .csv? Type Y for yes or N for no: ")
+      .toUpperCase
+      .trim
+        if(save == "Y") {
+        println("Saving results!")
+        val userResults = sortedRes.map(line => getFruitPriceEUCSV(line))
+        val rawUserResults = columnNames.concat(userResults)
+        val destPath = "src/resources/userFilteringResults.csv"
+        Utilities.saveLines(rawUserResults, destPath)
+        } else if(save == "N") {
+        println("Not saving")
+        }else {
+        println("Input not understandable. Not saving results!")
+        }
+
   } else {
       println(s"No results found for the combination $userProduct and $userCountry")
       println("The filtering ends")
