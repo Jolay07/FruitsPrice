@@ -99,28 +99,15 @@ object FruitsCSV extends App {
   Utilities.customPrint(uniqueProducts)
 
   //user chooses a fruit
-  println("Take a look at the list, choose one fruit for which to get prices!")
-  var userProduct = readLine("Type in the fruit name: ")
-    .toUpperCase
-    .trim
-  while(!uniqueProducts.exists(_.toUpperCase.contains(userProduct))) {
-    userProduct = readLine("Fruit not found! Try to type it in again: ")
-  }
-  println(s"$userProduct found.")
+  val userProduct = Utilities.selectSpecific(uniqueProducts)
 
   //filtering unique countries and user chooses one
   println("Now take a look at the countries and choose one!")
   val uniqueCountries = fruitPrices.map(_.Country).distinct
   Utilities.customPrint(uniqueCountries)
+  //user chooses country
+  val userCountry = Utilities.selectSpecific(uniqueCountries)
 
-  var userCountry = readLine("Type in the country code you chose! ")
-    .toUpperCase
-    .trim
-  while(!(uniqueCountries.exists(_ == userCountry))) {
-    println("Country not found!")
-    userCountry = readLine("Country not found! Try to type it in again: ").toUpperCase
-  }
-    println(s"$userCountry found.")
 
   //filter results per user specifications
   val filterRes = fruitPrices.filter(fruit => fruit.Product.toUpperCase.contains(userProduct)

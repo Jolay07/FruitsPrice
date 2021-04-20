@@ -1,4 +1,5 @@
 import scala.io.Source
+import scala.io.StdIn.readLine
 
 /** Object to store all Utilities functions/methods that are used in other objects/classes
  * as not make multiple copies */
@@ -28,4 +29,16 @@ import scala.io.Source
       }
       println()
     }
+
+  def selectSpecific(list: Array[String]):String = {
+    println("Take a look at the options, choose one for which to get prices!")
+    var userChoice = readLine("Type in the name: ")
+      .toUpperCase
+      .trim
+    while(!list.exists(_.toUpperCase.contains(userChoice))) {
+      userChoice = readLine("Not found! Try to type it in again: ")
+    }
+    println(s"$userChoice found.")
+    userChoice
+  }
 }
