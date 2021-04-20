@@ -20,4 +20,12 @@ import scala.io.Source
       pw.write(txt)
       pw.close()
     }
+
+    def customPrint(list: Array[String], separator: String = " | "): Unit = {
+      for (index <- 0 until list.length) {
+        print(list(index) + separator)
+        if (index >= 4 && index % 4 == 0 ) print ("\n")
+      }
+      println()
+    }
 }

@@ -96,7 +96,7 @@ object FruitsCSV extends App {
 
   //Filtering all entries, getting unique product names
   val uniqueProducts = fruitPrices.map(_.Product).distinct
-  for(line <- uniqueProducts) print(line + " | ")
+  Utilities.customPrint(uniqueProducts)
 
   //user chooses a fruit
   println("Take a look at the list, choose one fruit for which to get prices!")
@@ -111,8 +111,8 @@ object FruitsCSV extends App {
   //filtering unique countries and user chooses one
   println("Now take a look at the countries and choose one!")
   val uniqueCountries = fruitPrices.map(_.Country).distinct
-  for (i <- uniqueCountries) print(i + " | ")
-  println()
+  Utilities.customPrint(uniqueCountries)
+
   var userCountry = readLine("Type in the country code you chose! ")
     .toUpperCase
     .trim
