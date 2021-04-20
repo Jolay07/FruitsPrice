@@ -1,4 +1,6 @@
 import DBHelperFunctions._
+
+import scala.util.control.Breaks.break
 //import com.sun.org.slf4j.internal.LoggerFactory
 
 import org.slf4j.LoggerFactory
@@ -48,15 +50,15 @@ object FruitsCSV extends App {
   /** We use case class.
    * check if everything work appropriate. */
 
-  fruitPrices.slice(0, 5) foreach (println)
+  fruitPrices.slice(0, 5).foreach(println)
 
   //Filtering apples
   val allApples = fruitPrices.filter(fruit => fruit.Product.contains("Apple"))
   log.debug("-------Gala Apples--------")
   log.debug(s"There are ${allApples.length} lines with apples")
   //gala apples sorted by price DESC, in Germany
-  val galaApplesSorted = allApples.sortBy(-_.Price).filter(fruit => fruit.Product.contains("Gala")
-    && fruit.Country.equalsIgnoreCase("de"))
+  val galaApplesSorted = allApples.filter(fruit => fruit.Product.contains("Gala")
+    && fruit.Country.equalsIgnoreCase("de")).sortBy(-_.Price)
   log.debug(s"There are ${galaApplesSorted.length} lines with Gala apples in Germany. Printing some for testing: ")
   galaApplesSorted.slice(0, 4).foreach(println)
 
@@ -98,44 +100,46 @@ object FruitsCSV extends App {
   val uniqueProducts = fruitPrices.map(_.Product).distinct
   Utilities.customPrint(uniqueProducts)
 
-  //user chooses a fruit
+  //user chooses a fruit name
   val userProduct = Utilities.selectSpecific(uniqueProducts)
 
-  //filtering unique countries and user chooses one
-  println("Now take a look at the countries and choose one!")
+  //filtering all entries, getting unique countries
   val uniqueCountries = fruitPrices.map(_.Country).distinct
   Utilities.customPrint(uniqueCountries)
-  //user chooses country
+  //user chooses a country
   val userCountry = Utilities.selectSpecific(uniqueCountries)
 
 
-  //filter results per user specifications
+  //filter results using user specified fruit and country
   val filterRes = fruitPrices.filter(fruit => fruit.Product.toUpperCase.contains(userProduct)
     && fruit.Country.equals(userCountry))
-  if (filterRes.length == 0)
-    println(s"No results found for the combination $userProduct and $userCountry")
-  else {
+
+  if (filterRes.length != 0) {
     println(s"${filterRes.length} results found for the combination $userProduct and $userCountry")
 
     val sortingDir = readLine("How do you want to sort it? Type A for ascending and D for descending: ")
       .toUpperCase
       .trim
 
-  var sortedRes = scala.collection.mutable.Seq.empty[FruitPriceEU].toArray
-    if (sortingDir.equals("A")) {
-      sortedRes = filterRes.sortBy(_.Price)
+    var sortedRes = scala.collection.mutable.Seq.empty[FruitPriceEU].toArray
+      if (sortingDir.equals("A")) {
+        sortedRes = filterRes.sortBy(_.Price)
         sortedRes.slice(0, 5).foreach(println)
-    }
-    else if (sortingDir.equals("D")) {
-      sortedRes = filterRes.sortBy(-_.Price)
+      }
+      else if (sortingDir.equals("D")) {
+        sortedRes = filterRes.sortBy(-_.Price)
         sortedRes.slice(0, 5).foreach(println)
-    } else {
-      println("User input was not understandable. Sorting descending!")
-      sortedRes = filterRes.sortBy(-_.Price)
-        sortedRes.slice(0, 5).foreach(println)
-    }
 
+      } else {
+        println("User input was not understandable. Sorting descending!")
+        sortedRes = filterRes.sortBy(-_.Price)
+        sortedRes.slice(0, 5).foreach(println)
+      }
+  } else {
+      println(s"No results found for the combination $userProduct and $userCountry")
+      println("The filtering ends")
   }
+
 
   connection.close()
 
