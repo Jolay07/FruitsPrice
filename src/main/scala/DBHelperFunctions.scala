@@ -13,7 +13,6 @@ object DBHelperFunctions {
    *
    * @param connection a connections with the DB
    */
-
   def migrateFruitPriceTable(connection: Connection):Unit = {
     println("Migrating table for Fruits in EU")
     val statement = connection.createStatement()
@@ -44,7 +43,6 @@ object DBHelperFunctions {
    * @param conn connection with the DB
    * @param fruitPriceEUObject the object from which parameters are taken
    */
-
   def insertFruitPriceEU(conn: Connection, fruitPriceEUObject: FruitPriceEU): Unit = {
 
     //println(s"Inserting Fruit Price in EU $fruitPriceEUObject")
@@ -86,7 +84,6 @@ object DBHelperFunctions {
    * @param conn connection with the DB
    * @return results as ListBuffer[FruitsPriceEU]
    */
-
   def getGalaApples(conn: Connection): Seq[FruitPriceEU] = {
     val statement = conn.createStatement()
 

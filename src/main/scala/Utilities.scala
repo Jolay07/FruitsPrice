@@ -1,18 +1,30 @@
 import scala.io.Source
 import scala.io.StdIn.readLine
 
-/** Object to store all Utilities functions/methods that are used in other objects/classes
- * as not make multiple copies */
+/** Utilities object holding methods for [FruitsCSV]
+  */
 
   object Utilities {
 
-    def getLinesFromFile(srcPath: String): Array[String] = {
-      val bufferedSource = Source.fromFile(srcPath)
-      val lines = bufferedSource.getLines.toArray
-      bufferedSource.close
-      lines
+  /** Get content from url
+   *
+   * @param srcPath source path
+   * @param encoding default UTF8
+   * @return Array of String Lines
+   */
+  def getLinesFromFile(srcPath: String, encoding:String="UTF8"): Array[String] = {
+    val bufferedSource = Source.fromFile(srcPath, enc=encoding)
+    val lines = bufferedSource.getLines.toArray
+    bufferedSource.close
+    lines
     }
 
+  /** Save content
+   *
+   * @param lines content to save as Array of Strings
+   * @param destPath destination path
+   * @param sep String, default "\n"
+   */
     def saveLines(lines: Array[String], destPath: String, sep: String = "\n"): Unit = {
       val txt = lines.mkString(sep)
       import java.io.{File, PrintWriter} //explicit import
@@ -22,6 +34,11 @@ import scala.io.StdIn.readLine
       pw.close()
     }
 
+  /** Method for custom printing
+   *
+   * @param list content to print, Array of Strings
+   * @param separator String, default " | "
+   */
     def customPrint(list: Array[String], separator: String = " | "): Unit = {
       for (index <- 0 until list.length) {
         print(list(index) + separator)
@@ -30,6 +47,12 @@ import scala.io.StdIn.readLine
       println()
     }
 
+  /** Method to get the user to choose a specific item
+   * using a while loop
+   *
+   * @param list content from which to choose, Array of Strings
+   * @return chosen item, String
+   */
   def selectSpecific(list: Array[String]):String = {
     println("Take a look at the options, choose one for which to get prices!")
     var userChoice = readLine("Type in the name: ")
