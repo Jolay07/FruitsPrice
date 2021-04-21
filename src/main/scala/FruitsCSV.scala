@@ -1,6 +1,5 @@
 import DBHelperFunctions._
 
-import scala.util.control.Breaks.break
 //import com.sun.org.slf4j.internal.LoggerFactory
 
 import org.slf4j.LoggerFactory

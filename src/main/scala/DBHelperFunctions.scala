@@ -1,17 +1,22 @@
 import java.sql.{Connection, PreparedStatement}
 
-/** Here are functions that are used in relation to DB */
+/** DB Helper Functions object holding methods for [FruitsCSV]
+ * Methods for creating table and selecting data from the table
+ */
 
 object DBHelperFunctions {
+
+  /**Creates a table FruitPrice
+   * First column id as integer with autoincrement
+   * Columns in accordance with case class
+   *  "Category","Sector Code","Product_code","Product","Description","Unit","Country","Period","MP Market Price"
+   *
+   * @param connection a connections with the DB
+   */
 
   def migrateFruitPriceTable(connection: Connection):Unit = {
     println("Migrating table for Fruits in EU")
     val statement = connection.createStatement()
-
-    /** Function for creating a table FruitPrice
-     * First column id as integer with autoincrement
-     * columns in accordance with case class
-     * "Category","Sector Code","Product_code","Product","Description","Unit","Country","Period","MP Market Price" */
 
     val sqlCreateFruitPriceTable =
       """
@@ -34,10 +39,13 @@ object DBHelperFunctions {
     statement.close()
   }
 
-  def insertFruitPriceEU(conn: Connection, fruitPriceEUObject: FruitPriceEU): Unit = {
+  /** Inserting an FruitPriceEU object into the created table
+   * Taking parameters from single object
+   * @param conn connection with the DB
+   * @param fruitPriceEUObject the object from which parameters are taken
+   */
 
-    /** inserting an FruitPriceEU object into the created table
-     * taking parameters from single object */
+  def insertFruitPriceEU(conn: Connection, fruitPriceEUObject: FruitPriceEU): Unit = {
 
     //println(s"Inserting Fruit Price in EU $fruitPriceEUObject")
 
@@ -72,40 +80,15 @@ object DBHelperFunctions {
     preparedStmt.close()
   }
 
+  /** Select query for a specific type of fruit and specific country
+   * Ordered descending
+   *
+   * @param conn connection with the DB
+   * @return results as ListBuffer[FruitsPriceEU]
+   */
+
   def getGalaApples(conn: Connection): Seq[FruitPriceEU] = {
     val statement = conn.createStatement()
-
-
-    val sqlSelectGala =
-      """
-        |SELECT * from FruitPrice
-        |WHERE Product LIKE '%Gala%' AND Country = 'DE'
-        |ORDER BY MP_Market_Price DESC;
-        |""".stripMargin
-
-    val resultSet = statement.executeQuery(sqlSelectGala)
-    val galaList = scala.collection.mutable.ListBuffer.empty[FruitPriceEU]
-
-    while (resultSet.next()) {
-      val galaApple = FruitPriceEU(resultSet.getString("Category"),
-        resultSet.getString("Sector_code"),
-      resultSet.getString("Product_code"),
-      resultSet.getString("Product"),
-      resultSet.getString("Description"),
-        resultSet.getString("Unit"),
-        resultSet.getString("Country"),
-        resultSet.getString("Period"),
-        resultSet.getString("MP_Market_Price").toDouble)
-      galaList.append(galaApple)
-      //    println(row.size)
-    }
-    conn.close()
-    galaList.toSeq
-  }
-
-  def getAllProducts(conn: Connection): Seq[FruitPriceEU] = {
-    val statement = conn.createStatement()
-
 
     val sqlSelectGala =
       """
@@ -133,7 +116,5 @@ object DBHelperFunctions {
     conn.close()
     galaList.toSeq
   }
-
-
 
 }
