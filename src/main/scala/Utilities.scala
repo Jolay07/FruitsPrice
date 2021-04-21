@@ -62,6 +62,7 @@ import scala.io.StdIn.readLine
       userChoice = readLine("Not found! Try to type it in again: ")
     }
     println(s"$userChoice found.")
+    println()
     userChoice
   }
 }
