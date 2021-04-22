@@ -2,7 +2,7 @@ package com.github.jolay07
 
 import java.sql.{Connection, PreparedStatement}
 
-/** DB Helper Functions object holding methods for [FruitsCSV]
+/** DB Helper Functions object holding methods for FruitPrice parser [[com.github.jolay07]]
  * Methods for creating table and selecting data from the table
  */
 

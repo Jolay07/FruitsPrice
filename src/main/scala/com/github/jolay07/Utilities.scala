@@ -3,7 +3,7 @@ package com.github.jolay07
 import scala.io.Source
 import scala.io.StdIn.readLine
 
-/** Utilities object holding methods for [FruitsCSV]
+/** Utilities object holding methods for the fruitPrice parser [[com.github.jolay07]]
  */
 
 object Utilities {
@@ -42,7 +42,7 @@ object Utilities {
    * @param separator String, default " | "
    */
   def customPrint(list: Array[String], separator: String = " | "): Unit = {
-    for (index <- 0 until list.length) {
+    for (index <- list.indices) {
       print(list(index) + separator)
       if (index >= 4 && index % 4 == 0) print("\n")
     }

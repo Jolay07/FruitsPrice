@@ -7,7 +7,7 @@ import java.sql.DriverManager
 import scala.io.StdIn.readLine
 
 /** FruitsCSV object
- * provides .csv parsing/filtering
+ * provides .csv parsing/filtering for [[com.github.jolay07]]
  *
  * @author Jolanta Ijannidi
  * @author Elīna Šime-Pilāne
