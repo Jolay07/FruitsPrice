@@ -1,3 +1,5 @@
+package com.github.jolay07
+
 import java.sql.{Connection, PreparedStatement}
 
 /** DB Helper Functions object holding methods for [FruitsCSV]
@@ -6,14 +8,14 @@ import java.sql.{Connection, PreparedStatement}
 
 object DBHelperFunctions {
 
-  /**Creates a table FruitPrice
+  /** Creates a table FruitPrice
    * First column id as integer with autoincrement
    * Columns in accordance with case class
-   *  "Category","Sector Code","Product_code","Product","Description","Unit","Country","Period","MP Market Price"
+   * "Category","Sector Code","Product_code","Product","Description","Unit","Country","Period","MP Market Price"
    *
    * @param connection a connections with the DB
    */
-  def migrateFruitPriceTable(connection: Connection):Unit = {
+  def migrateFruitPriceTable(connection: Connection): Unit = {
     println("Migrating table for Fruits in EU")
     val statement = connection.createStatement()
 
@@ -40,7 +42,8 @@ object DBHelperFunctions {
 
   /** Inserting an FruitPriceEU object into the created table
    * Taking parameters from single object
-   * @param conn connection with the DB
+   *
+   * @param conn               connection with the DB
    * @param fruitPriceEUObject the object from which parameters are taken
    */
   def insertFruitPriceEU(conn: Connection, fruitPriceEUObject: FruitPriceEU): Unit = {

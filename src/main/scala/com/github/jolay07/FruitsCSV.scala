@@ -1,8 +1,8 @@
-import DBHelperFunctions._
+package com.github.jolay07
 
-//import com.sun.org.slf4j.internal.LoggerFactory
-
+import com.github.jolay07.DBHelperFunctions.getGalaApples
 import org.slf4j.LoggerFactory
+
 import java.sql.DriverManager
 import scala.io.StdIn.readLine
 
@@ -11,7 +11,6 @@ import scala.io.StdIn.readLine
  *
  * @author Jolanta Ijannidi
  * @author Elīna Šime-Pilāne
- *
  * @version 1.0
  */
 object FruitsCSV extends App {
@@ -42,7 +41,7 @@ object FruitsCSV extends App {
    * @param tokens items in each line in the Sequence of Strings
    * @return FruitPriceEU
    */
-  def convertToFruitPrice(tokens: Seq[String]):FruitPriceEU = {
+  def convertToFruitPrice(tokens: Seq[String]): FruitPriceEU = {
     FruitPriceEU(
       tokens.head,
       tokens(1),
@@ -134,42 +133,42 @@ object FruitsCSV extends App {
       .trim
 
     var sortedRes = scala.collection.mutable.Seq.empty[FruitPriceEU].toArray
-      if (sortingDir.equals("A")) {
-        sortedRes = filterRes.sortBy(_.Price)
-        sortedRes.slice(0, 5).foreach(println)
-      }
-      else if (sortingDir.equals("D")) {
-        sortedRes = filterRes.sortBy(-_.Price)
-        sortedRes.slice(0, 5).foreach(println)
+    if (sortingDir.equals("A")) {
+      sortedRes = filterRes.sortBy(_.Price)
+      sortedRes.slice(0, 5).foreach(println)
+    }
+    else if (sortingDir.equals("D")) {
+      sortedRes = filterRes.sortBy(-_.Price)
+      sortedRes.slice(0, 5).foreach(println)
 
-      } else {
-        println("User input was not understandable. Sorting descending!")
-        sortedRes = filterRes.sortBy(-_.Price)
-        sortedRes.slice(0, 5).foreach(println)
-      }
+    } else {
+      println("User input was not understandable. Sorting descending!")
+      sortedRes = filterRes.sortBy(-_.Price)
+      sortedRes.slice(0, 5).foreach(println)
+    }
 
     //user has choice to save results into file, default not saving
     val save = readLine("Do you want to save he results as .csv? Type Y for yes or N for no: ")
       .toUpperCase
       .trim
 
-        if (save == "Y") {
-        println("Saving results!")
-        val userResults = sortedRes.map(line => getFruitPriceEUCSV(line))
-        val rawUserResults = columnNames.concat(userResults)
-        val destPath = "src/resources/userFilteringResults.csv"
-        Utilities.saveLines(rawUserResults, destPath)
+    if (save == "Y") {
+      println("Saving results!")
+      val userResults = sortedRes.map(line => getFruitPriceEUCSV(line))
+      val rawUserResults = columnNames.concat(userResults)
+      val destPath = "src/resources/userFilteringResults.csv"
+      Utilities.saveLines(rawUserResults, destPath)
 
-        } else if (save == "N") {
-        println("Not saving")
+    } else if (save == "N") {
+      println("Not saving")
 
-        }else {
-        println("Input not understandable. Not saving results!")
-        }
+    } else {
+      println("Input not understandable. Not saving results!")
+    }
 
   } else {
-      println(s"No results found for the combination $userProduct and $userCountry")
-      println("The filtering ends")
+    println(s"No results found for the combination $userProduct and $userCountry")
+    println("The filtering ends")
   }
 
 

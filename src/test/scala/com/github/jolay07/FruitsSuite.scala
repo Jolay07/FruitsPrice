@@ -1,5 +1,5 @@
+package com.github.jolay07
 import org.scalatest.funsuite.AnyFunSuite
-import Utilities.getLinesFromFile
 class FruitsSuite extends AnyFunSuite{
 
 test("Testing fail reading"){
