@@ -127,7 +127,7 @@ object FruitsCSV extends App {
 
   //if results exist, offer to sort asc or desc, default desc, printing first results for checking
   if (filterRes.length != 0) {
-    println(s"${filterRes.length} results found for the combination $userProduct and $userCountry")
+    log.debug(s"${filterRes.length} results found for the combination $userProduct and $userCountry")
 
     val sortingDir = readLine("How do you want to sort it? Type A for ascending and D for descending: ")
       .toUpperCase
